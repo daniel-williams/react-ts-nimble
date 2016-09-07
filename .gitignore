@@ -1,0 +1,19 @@
+# Dependency directory
+node_modules
+
+# Build directory
+dist
+
+# Typescript-related generated files
+typings
+src/**/*.js
+src/**/*.js.map
+test/**/*.js
+test/**/*.js.map
+
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# log files
+npm-debug.log

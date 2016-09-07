@@ -1,0 +1,47 @@
+import Koa from 'koa';
+import convert from 'koa-convert';
+import webpack from 'webpack';
+import historyApiFallback from 'koa-connect-history-api-fallback';
+import serve from 'koa-static';
+import _debug from 'debug';
+import webpackDevMiddleware from './middleware/webpack-dev';
+import webpackHMRMiddleware from './middleware/webpack-hmr';
+import config from '../config/app.config';
+import webpackConfig from '../config/webpack.config';
+
+const debug = _debug('app:server');
+const paths = config.utils_paths;
+const app = new Koa();
+
+// This rewrites all routes requests to the root /index.html file
+// (ignoring file requests). If you want to implement isomorphic
+// rendering, you'll want to remove this middleware.
+app.use(convert(historyApiFallback({ verbose: false })));
+
+// ------------------------------------
+// Apply Webpack HMR Middleware
+// ------------------------------------
+if (config.env === 'development') {
+  const compiler = webpack(webpackConfig);
+
+  // Enable webpack-dev and webpack-hot middleware
+  const { publicPath } = webpackConfig.output;
+
+  app.use(webpackDevMiddleware(compiler, publicPath));
+  app.use(webpackHMRMiddleware(compiler));
+
+  // Serve static assets from ~/src/static since Webpack is unaware of
+  // these files. This middleware doesn't need to be enabled outside
+  // of development since this directory will be copied into ~/dist
+  // when the application is compiled.
+  app.use(serve(paths.client('static')));
+} else {
+  debug('Server not in development mode, and will serve compiled application bundle in ~/dist.');
+
+  // Serving ~/dist by default. Ideally these files should be served by
+  // the web server and not the app server, but this helps to demo the
+  // server in production.
+  app.use(serve(paths.dist()));
+}
+
+export default app;
