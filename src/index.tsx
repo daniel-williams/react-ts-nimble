@@ -8,7 +8,6 @@ ReactDOM.render(
   <div>Testing React!</div>,
   document.getElementById('root')
 );
-
 // import { Provider } from 'react-redux';
 // import { Router, browserHistory } from 'react-router';
 // import { syncHistoryWithStore } from 'react-router-redux';
