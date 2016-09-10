@@ -3,11 +3,20 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+import { default as Home } from './Home';
+
+if (!document.getElementById('root')) {
+  document.getElementsByTagName('body').item(0).innerHTML = '<div id="root"></div>';
+}
 
 ReactDOM.render(
-  <div>Testing React!</div>,
+  <div>
+    <h1>Testing React!</h1>
+    <Home></Home>
+  </div>,
   document.getElementById('root')
 );
+
 // import { Provider } from 'react-redux';
 // import { Router, browserHistory } from 'react-router';
 // import { syncHistoryWithStore } from 'react-router-redux';

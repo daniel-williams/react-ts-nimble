@@ -2,31 +2,28 @@ let webpackConfig = require('./webpack.config.js').default;
 
 module.exports = (config) => {
   config.set({
-    basePath: '../test',
+    basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      '**/*.ts'
+      '../test/test.config.js'
     ],
     preprocessors: {
-      '**/*.ts': ['webpack', 'sourcemap']
+      '../test/test.config.js': ['webpack', 'sourcemap']
     },
+    // let karma auto load plugins
+    // plugins: []
     webpack: {
+      cache: true,
+      devtool: 'inline-source-map',
+      resolve: webpackConfig.resolve,
       module: webpackConfig.module,
-      resolve: webpackConfig.resolve
+      ts: {
+        configFileName: '../tsconfig.json'
+      }
     },
     webpackServer: {
       noInfo: true
     },
-    // plugins: [
-    //   'karma-mocha',
-    //   'karma-mocha-reporter',
-    //   'karma-chai',
-    //   'karma-sinon',
-    //   'karma-webpack',
-    //   'karma-sourcemap-loader',
-    //   'karma-chrome-launcher',
-    //   'karma-phantomjs-launcher'
-    // ],
     reporters: ['mocha'],
     port: 9876,
     colors: true,

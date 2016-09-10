@@ -5,7 +5,8 @@
     "node": "registry:dt/node#6.0.0+20160801161248",
     "react": "registry:dt/react#0.14.0+20160801203155",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
-    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#5d0f2126c8dac8fce0ff020218aea06607213b0d"
+    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#5d0f2126c8dac8fce0ff020218aea06607213b0d",
+    "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638"
   },
   "dependencies": {
     "chai": "registry:npm/chai#3.5.0+20160723033700",
