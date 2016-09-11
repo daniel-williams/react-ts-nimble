@@ -5,10 +5,10 @@ module.exports = (config) => {
     basePath: '',
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      '../test/test.config.js'
+      './test.config.js'
     ],
     preprocessors: {
-      '../test/test.config.js': ['webpack', 'sourcemap']
+      './test.config.js': ['webpack', 'sourcemap']
     },
     // let karma auto load plugins
     // plugins: []
@@ -16,7 +16,14 @@ module.exports = (config) => {
       cache: true,
       devtool: 'inline-source-map',
       resolve: webpackConfig.resolve,
-      module: webpackConfig.module,
+      module: {
+        loaders: webpackConfig.module.loaders,
+        postLoaders: [{
+          test: /.*\.(j|t)sx?$/,
+          exclude: /(node_modules|test)/,
+          loader: 'istanbul-instrumenter'
+        }]
+      },
       ts: {
         configFileName: '../tsconfig.json'
       }
@@ -24,7 +31,23 @@ module.exports = (config) => {
     webpackServer: {
       noInfo: true
     },
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
+    coverageReporter: {
+      dir: '../coverage',
+      reporters: [{
+        type: 'html',
+        subdir: '.'
+      },
+      {
+        type: 'lcov',
+        subdir: 'report-lcov'
+      },
+      {
+        type: 'cobertura',
+        subdir: 'report-cobertura',
+        file: 'cobertura.txt'
+      }]
+    },
     port: 9876,
     colors: true,
     // level of logging
